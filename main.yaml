@@ -1,0 +1,38 @@
+---
+- host: all
+  become: true
+  gather_facts: yes
+  tasks:
+    - name: ubuntu
+      when: ansible_distribution == "Ubuntu"
+      always:
+        - name: Update apt sources list
+          when: ansible_distribution_major_version == "22"
+          copy:
+            backup: yes
+            src: ./files/apt/sources-jammy.list
+            dest: /etc/apt/sources.list
+            owner: root
+            group: root
+            mode: '0644'
+        - name:
+          apt:
+            name:
+              - ca-certificates
+              - clang
+              - clang-format
+              - cloc
+              - curl
+              - git
+              - glances
+              - gzip
+              - libssl
+              - net-tools
+              - openssl
+              - rclone
+              - rename
+              - tree
+              - unzip
+              - vim
+              - zsh
+            state: present
